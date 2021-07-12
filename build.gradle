@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'com.xilda'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+compileJava.options.encoding = "UTF-8"
+
+jar {
+    manifest {
+        attributes "Main-Class": "${group}.Main"
+    }
+
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}

@@ -1,7 +1,10 @@
-import javax.swing.*;
-import java.awt.*;
+package com.xilda;
 
-class Game extends Canvas implements Runnable
+import javax.swing.JFrame;
+import java.awt.Canvas;
+import java.awt.Dimension;
+
+public class Game extends Canvas implements Runnable
 {
   static JFrame frame;
 
@@ -15,10 +18,10 @@ class Game extends Canvas implements Runnable
     /* NOT FIX IT, SO FUCK IT! FORGET THIS CRAP,    */
     /* GLORY TO VIM!                                */
     this.setPreferredSize(
-            new Dimension(
-                    CANVAS_WIDTH * CANVAS_SCALE,
-                    CANVAS_HEIGHT * CANVAS_SCALE
-            )
+        new Dimension(
+            CANVAS_WIDTH * CANVAS_SCALE,
+            CANVAS_HEIGHT * CANVAS_SCALE
+        )
     );
 
     this.frame = new JFrame("The Tale of Xilda");
@@ -34,13 +37,4 @@ class Game extends Canvas implements Runnable
   @Override
   public void run()
   {}
-}
-
-public class Main
-{
-  public static void main(String[] args)
-  {
-    Game game = new Game();
-    game.init_window();
-  }
 }
