@@ -6,12 +6,15 @@ import java.awt.Dimension;
 
 public class Game extends Canvas implements Runnable
 {
-  static JFrame frame;
+  private JFrame frame;
 
-  final int CANVAS_WIDTH = 400, CANVAS_HEIGHT = 300;
-  final char CANVAS_SCALE = 2;
+  private final short CANVAS_WIDTH = 400, CANVAS_HEIGHT = 300;
+  private final char CANVAS_SCALE = 2;
 
-  void init_window()
+  private Thread main_loop;
+  private final char frame_rate = 60;
+
+  public void init_window()
   {
     /* THIS FUCKING STUPID IDE DECIDED TO INDENT    */
     /* THIS SHIT WITH DOUBLE THE SPACES AND I COULD */
@@ -34,7 +37,39 @@ public class Game extends Canvas implements Runnable
     this.frame.setVisible(true);
   }
 
+  public synchronized void start()
+  {
+    this.main_loop = new Thread(this);
+    main_loop.start();
+  }
+
+  private void update()
+  {}
+
+  private void render()
+  {}
+
   @Override
   public void run()
-  {}
+  {
+    long last_time = System.nanoTime();
+    double ns = 1000000000 / this.frame_rate;
+
+    while (true)
+    {
+      long now = System.nanoTime();
+      Time.delta_time += (now - last_time) / ns;
+      last_time = now;
+
+      if (Time.delta_time > 1)
+      {
+        Time.update_fixed_delta_time();
+
+        this.update();
+        this.render();
+
+        --Time.delta_time;
+      }
+    }
+  }
 }
