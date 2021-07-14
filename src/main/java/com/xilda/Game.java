@@ -1,6 +1,7 @@
 package com.xilda;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,11 +42,18 @@ public class Game extends Canvas implements Runnable
     main_loop.start();
   }
 
-  public synchronized void stop()
+  public synchronized void stop(int code)
   {
-    this.main_loop.interrupt();
+    if(this.main_loop.isAlive()) {
+      this.main_loop.interrupt();
+    }
+
     this.frame.setVisible(false);
-    this.frame.dispose();
+
+    SwingUtilities.invokeLater(() -> {
+      Game.this.frame.dispose();
+      System.exit(code);
+    });
   }
 
   private void update()

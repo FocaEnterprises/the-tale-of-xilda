@@ -17,6 +17,14 @@ public class Main
   public static void main(String[] args)
   {
     Game game = new Game();
+
+    Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+      System.out.println("Unhandled exception in thread " + t.getName());
+      e.printStackTrace();
+
+      game.stop(1);
+    });
+
     game.init_window();
     game.start();
   }
