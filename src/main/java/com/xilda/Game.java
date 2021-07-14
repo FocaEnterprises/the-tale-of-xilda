@@ -9,27 +9,18 @@ import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable
 {
-  private JFrame frame;
-  private BufferedImage layer;
-
   private static final short CANVAS_WIDTH = 400, CANVAS_HEIGHT = 300;
   private static final byte CANVAS_SCALE = 2;
 
+  private static final byte frame_rate = 60;
+
+  private BufferedImage layer;
   private Thread main_loop;
-  private final char frame_rate = 60;
+  private JFrame frame;
 
   public void init_window()
   {
-    /* THIS FUCKING STUPID IDE DECIDED TO INDENT    */
-    /* THIS SHIT WITH DOUBLE THE SPACES AND I COULD */
-    /* NOT FIX IT, SO FUCK IT! FORGET THIS CRAP,    */
-    /* GLORY TO VIM!                                */
-    this.setPreferredSize(
-        new Dimension(
-            CANVAS_WIDTH * CANVAS_SCALE,
-            CANVAS_HEIGHT * CANVAS_SCALE
-        )
-    );
+    this.setPreferredSize(new Dimension(getScaledWidth(), getScaledHeight()));
 
     this.layer = new BufferedImage(CANVAS_WIDTH, CANVAS_HEIGHT, BufferedImage.TYPE_INT_RGB);
     this.frame = new JFrame("The Tale of Xilda");
@@ -48,6 +39,13 @@ public class Game extends Canvas implements Runnable
   {
     this.main_loop = new Thread(this);
     main_loop.start();
+  }
+
+  public synchronized void stop()
+  {
+    this.main_loop.interrupt();
+    this.frame.setVisible(false);
+    this.frame.dispose();
   }
 
   private void update()
@@ -73,7 +71,7 @@ public class Game extends Canvas implements Runnable
   public void run()
   {
     long last_time = System.nanoTime();
-    double ns = 1000000000 / this.frame_rate;
+    double ns = 1_000_000_000D / this.frame_rate;
 
     while (true)
     {
