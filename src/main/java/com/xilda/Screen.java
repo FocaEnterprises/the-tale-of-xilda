@@ -7,6 +7,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+/**
+ * Window wrapper
+ */
 public class Screen {
   public static final int WIDTH = 400;
   public static final int HEIGHT = 300;
@@ -16,7 +19,11 @@ public class Screen {
   private final Canvas canvas;
 
   private Graphics graphics;
+  private boolean rendering;
 
+  /**
+   * @param title JFrame window title
+   */
   public Screen(String title) {
     layer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
@@ -34,30 +41,63 @@ public class Screen {
     frame.setVisible(true);
   }
 
+  /**
+   * Start render process creating graphics and filling background
+   * @see Screen#endRender
+   * @throws IllegalStateException if screen is already rendering
+   */
   public void startRender() {
+    if(rendering) {
+      throw new IllegalStateException("Render already started.");
+    }
+
+    rendering = true;
     graphics = layer.getGraphics();
     graphics.setColor(Color.black);
     graphics.fillRect(0, 0, WIDTH, HEIGHT);
   }
 
+  /**
+   * Finalize render process drawing layer into canvas Graphics
+   * @see Screen#startRender
+   * @throws IllegalStateException if screen is not rendering yet
+   */
   public void endRender() {
+    if(!rendering) {
+      throw new IllegalStateException("Not rendering yet.");
+    }
+
     Graphics screenGraphics = canvas.getBufferStrategy().getDrawGraphics();
     screenGraphics.drawImage(layer, 0, 0, getScaledWidth(), getScaledHeight(), null);
 
     canvas.getBufferStrategy().show();
-
     graphics.dispose();
     screenGraphics.dispose();
+    rendering = false;
   }
 
+  /**
+   * Get screen width scaled
+   * @return screen width times screen scale
+   */
   public static int getScaledWidth() {
     return WIDTH * SCALE;
   }
 
+  /**
+   * Get screen height scaled
+   * @return screen height times screen scale
+   */
   public static int getScaledHeight() {
     return HEIGHT * SCALE;
   }
 
+  /**
+   * Get Graphics provided by Screen#renderStart
+   * @see Screen#startRender
+   * @see Screen#endRender
+   * @return current Graphics
+   */
   public Graphics getGraphics() {
     return graphics;
   }

@@ -3,19 +3,28 @@ package com.xilda;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Game
+/**
+ * Represents the game
+ */
+public final class Game
 {
   private final Screen screen;
-  private final Looping looping;
+  private final Loop loop;
 
-  public Game() {
+  Game() {
     this.screen = new Screen("The Tale of Xilda");
-    this.looping = new Looping(this::update, this::render);
+    this.loop = new Loop(this::update, this::render);
   }
 
+  /**
+   * Game update logic called by loop update callback
+   */
   private void update()
   {}
 
+  /**
+   * Game render logic called by loop render callback
+   */
   private void render() {
     screen.startRender();
 
@@ -26,13 +35,19 @@ public class Game
     screen.endRender();
   }
 
+  /**
+   * Game start logic
+   */
   public void start() {
-    looping.start();
+    loop.start();
   }
 
+  /**
+   * Stops game loop
+   */
   @SuppressWarnings("unused")
   public void stop(int code) {
-    looping.stop();
+    loop.stop();
     System.exit(code);
   }
 }

@@ -1,10 +1,13 @@
 package com.xilda;
 
-public class Time
+public final class Time
 {
   public static double delta_time;
   public static double fixed_delta_time;
 
+  /**
+   * Updates the Time#fixed_delta_time variable
+   */
   public static void update_fixed_delta_time()
   {
     if (fixed_delta_time == 0)
