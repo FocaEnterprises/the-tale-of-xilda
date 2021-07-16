@@ -1,4 +1,4 @@
-package com.xilda;
+package com.xilda.graphics;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -11,9 +11,9 @@ import java.awt.image.BufferedImage;
  * Window wrapper
  */
 public class Screen {
-  public static final int WIDTH = 400;
-  public static final int HEIGHT = 300;
-  public static final int SCALE = 2;
+  public static final short WIDTH = 400;
+  public static final short HEIGHT = 300;
+  public static final byte SCALE = 2;
 
   private final BufferedImage layer;
   private final Canvas canvas;
@@ -100,5 +100,10 @@ public class Screen {
    */
   public Graphics getGraphics() {
     return graphics;
+  }
+
+  public final byte get_scale()
+  {
+    return this.SCALE;
   }
 }

@@ -1,9 +1,7 @@
 package com.xilda;
 
 import com.xilda.gameobjects.Player;
-
-import java.awt.Color;
-import java.awt.Graphics;
+import com.xilda.graphics.Screen;
 
 /**
  * Represents the game
@@ -13,13 +11,13 @@ public final class Game
   private final Screen screen;
   private final Loop loop;
 
-  private Player player;
+  private final Player player;
 
   Game() {
     this.screen = new Screen("The Tale of Xilda");
     this.loop = new Loop(this::update, this::render);
 
-    this.player = new Player();
+    this.player = new Player(this.screen);
   }
 
   /**
