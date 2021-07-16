@@ -1,5 +1,7 @@
 package com.xilda;
 
+import com.xilda.gameobjects.Player;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -11,9 +13,13 @@ public final class Game
   private final Screen screen;
   private final Loop loop;
 
+  private Player player;
+
   Game() {
     this.screen = new Screen("The Tale of Xilda");
     this.loop = new Loop(this::update, this::render);
+
+    this.player = new Player();
   }
 
   /**
@@ -28,9 +34,7 @@ public final class Game
   private void render() {
     screen.startRender();
 
-    Graphics graphics = screen.getGraphics();
-    graphics.setColor(Color.RED);
-    graphics.fillRect(50, 50, 20, 40);
+    this.player.render(this.screen);
 
     screen.endRender();
   }
